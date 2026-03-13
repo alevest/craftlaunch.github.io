@@ -358,7 +358,7 @@ function startDownload(){
   const iv=setInterval(()=>{
     p+=Math.random()*4+1;
     if(p>=100){p=100;clearInterval(iv);status.textContent='✓  Download complete!';btn.style.pointerEvents='auto';btn.style.opacity='1';
-      // In real deployment replace this with: window.location.href = 'releases/CraftLaunch_Setup.exe';
+      window.location.a.href = 'https://github.com/Alevest/craftlaunch.github.io/releases/download/v5.0/CraftLaunch_Setup.exe';
       showToast('Download started! Check your Downloads folder.');}
     else{status.textContent=msgs[Math.min(Math.floor(p/33),2)];}
     bar.style.width=p+'%';pct.textContent=Math.round(p)+'%';
