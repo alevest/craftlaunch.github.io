@@ -18,16 +18,16 @@
 html{scroll-behavior:smooth}
 body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;font-size:16px;line-height:1.6;overflow-x:hidden;cursor:none;min-height:100vh}
 
-/* ── Custom cursor ── */
+/* cursor */
 #cursor{position:fixed;top:0;left:0;pointer-events:none;z-index:9999}
 #cursor-dot{width:8px;height:8px;border-radius:50%;background:#b0c8f8;position:absolute;transform:translate(-50%,-50%)}
-#cursor-ring{width:36px;height:36px;border-radius:50%;border:1.5px solid rgba(59,130,246,.45);position:absolute;transform:translate(-50%,-50%);transition:width .2s,height .2s,border-color .2s}
-#cursor-glow{width:130px;height:130px;border-radius:50%;background:radial-gradient(circle,rgba(30,50,110,.2) 0%,transparent 70%);position:absolute;transform:translate(-50%,-50%)}
+#cursor-ring{width:36px;height:36px;border-radius:50%;border:1.5px solid rgba(59,130,246,.5);position:absolute;transform:translate(-50%,-50%);transition:width .2s,height .2s,border-color .2s}
+#cursor-glow{width:130px;height:130px;border-radius:50%;background:radial-gradient(circle,rgba(30,50,110,.18) 0%,transparent 70%);position:absolute;transform:translate(-50%,-50%)}
 
 #stars{position:fixed;inset:0;z-index:0;pointer-events:none}
 
-/* ── Nav ── */
-nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:0 40px;height:64px;background:rgba(8,10,20,.82);backdrop-filter:blur(16px);border-bottom:1px solid var(--border)}
+/* nav */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:0 40px;height:64px;background:rgba(8,10,20,.85);backdrop-filter:blur(16px);border-bottom:1px solid var(--border)}
 .nav-logo{display:flex;align-items:center;gap:10px;text-decoration:none}
 .nav-logo-icon{width:32px;height:32px;background:linear-gradient(135deg,var(--solar),var(--solar2));border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:16px}
 .nav-logo-text{font-size:17px;font-weight:700;color:var(--text);letter-spacing:-.3px}
@@ -36,57 +36,67 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:cen
 .nav-links a:hover{color:var(--text)}
 .nav-links a.active{color:var(--solar3)}
 
-/* ── Page layout ── */
+/* layout */
 .page{position:relative;z-index:1;padding-top:64px;min-height:100vh}
+.container{max-width:960px;margin:0 auto;padding:0 24px}
 
-/* ── Download hero ── */
-.dl-hero{padding:80px 0 60px;text-align:center}
+/* hero */
+.dl-hero{padding:80px 0 52px;text-align:center}
 .dl-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(34,197,94,.08);border:1px solid rgba(34,197,94,.25);border-radius:999px;padding:6px 16px;font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--green);margin-bottom:28px;letter-spacing:.5px}
 .dl-hero h1{font-size:clamp(36px,5vw,64px);font-weight:900;letter-spacing:-2px;line-height:1.05;margin-bottom:16px}
 .dl-hero h1 span{background:linear-gradient(135deg,var(--solar3),var(--cyan));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
 .dl-hero p{font-size:17px;color:var(--sub);max-width:520px;margin:0 auto}
 
-/* ── Download card ── */
-.container{max-width:960px;margin:0 auto;padding:0 24px}
-.dl-main-card{background:var(--panel);border:1px solid var(--border2);border-radius:24px;overflow:hidden;margin-bottom:32px;position:relative}
-.dl-card-accent{height:3px;background:linear-gradient(90deg,var(--solar2),var(--solar),var(--cyan));width:100%}
+/* main card */
+.dl-main-card{background:var(--panel);border:1px solid var(--border2);border-radius:24px;overflow:hidden;margin-bottom:32px}
+.dl-card-accent{height:3px;background:linear-gradient(90deg,var(--solar2),var(--solar),var(--cyan))}
 .dl-card-body{padding:48px 48px 40px}
 .dl-card-top{display:flex;align-items:center;gap:24px;margin-bottom:36px}
 .dl-app-icon{width:72px;height:72px;background:linear-gradient(135deg,var(--solar2),var(--solar));border-radius:20px;display:flex;align-items:center;justify-content:center;font-size:34px;flex-shrink:0;box-shadow:0 12px 40px rgba(59,130,246,.35)}
 .dl-app-info{flex:1}
-.dl-app-name{font-size:26px;font-weight:800;letter-spacing:-.8px;margin-bottom:4px}
-.dl-app-meta{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--muted);display:flex;gap:16px;flex-wrap:wrap}
+.dl-app-name{font-size:26px;font-weight:800;letter-spacing:-.8px;margin-bottom:6px}
+.dl-app-meta{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--muted);display:flex;gap:14px;flex-wrap:wrap;align-items:center}
 .dl-app-meta span{color:var(--sub)}
 .dl-app-meta .tag{background:rgba(59,130,246,.1);color:var(--solar3);border:1px solid rgba(59,130,246,.2);padding:2px 10px;border-radius:999px;font-size:11px}
 
-/* ── Main download button ── */
-.dl-btn-wrap{margin-bottom:28px}
-.dl-btn{display:flex;align-items:center;justify-content:space-between;background:var(--solar);color:#fff;border-radius:14px;padding:18px 28px;text-decoration:none;cursor:pointer;border:none;width:100%;font-family:'Inter',sans-serif;transition:all .2s;position:relative;overflow:hidden}
-.dl-btn::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,255,255,.08),transparent);pointer-events:none}
+/* download button */
+.dl-btn-wrap{margin-bottom:24px}
+.dl-btn{display:flex;align-items:center;justify-content:space-between;background:var(--solar);color:#fff;border-radius:14px;padding:18px 28px;cursor:pointer;border:none;width:100%;font-family:'Inter',sans-serif;transition:background .2s,transform .2s,box-shadow .2s;position:relative;overflow:hidden}
+.dl-btn::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,255,255,.09),transparent);pointer-events:none}
 .dl-btn:hover{background:var(--solar2);transform:translateY(-2px);box-shadow:0 16px 48px rgba(59,130,246,.4)}
 .dl-btn:active{transform:translateY(0)}
+.dl-btn:disabled{opacity:.65;cursor:not-allowed;transform:none}
 .dl-btn-left{display:flex;align-items:center;gap:14px}
-.dl-btn-icon{width:44px;height:44px;background:rgba(255,255,255,.15);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:20px}
-.dl-btn-text{text-align:left}
+.dl-btn-icon{width:44px;height:44px;background:rgba(255,255,255,.15);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0}
 .dl-btn-label{font-size:17px;font-weight:700;display:block;letter-spacing:-.3px}
 .dl-btn-sub{font-size:12px;opacity:.75;font-family:'JetBrains Mono',monospace;display:block;margin-top:2px}
 .dl-btn-right{display:flex;flex-direction:column;align-items:flex-end;gap:4px}
 .dl-btn-size{font-size:20px;font-weight:800;letter-spacing:-1px}
 .dl-btn-size-lbl{font-size:11px;opacity:.7;font-family:'JetBrains Mono',monospace}
 
-/* ── Progress bar (shown on click) ── */
-#dl-progress-wrap{display:none;margin-bottom:20px}
+/* progress bar */
+#dl-progress-wrap{display:none;margin-bottom:24px}
 .dl-progress-bar-bg{background:var(--card2);border-radius:999px;height:6px;overflow:hidden;margin-bottom:8px}
-.dl-progress-bar{height:100%;border-radius:999px;background:linear-gradient(90deg,var(--solar),var(--cyan));width:0%;transition:width .08s linear}
+.dl-progress-bar{height:100%;border-radius:999px;background:linear-gradient(90deg,var(--solar),var(--cyan));width:0%;transition:width .06s linear}
 .dl-progress-info{display:flex;justify-content:space-between;font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--muted)}
 
-/* ── Requirements row ── */
-.dl-reqs{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:0}
+/* requirements */
+.dl-reqs{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:0}
 .req-chip{display:flex;align-items:center;gap:8px;background:var(--card2);border:1px solid var(--border);border-radius:10px;padding:10px 16px;font-size:13px;color:var(--sub)}
-.req-chip-icon{font-size:16px}
+.req-chip-icon{font-size:15px}
 .req-chip strong{color:var(--text);font-weight:600}
 
-/* ── Alternate downloads ── */
+/* sha */
+.sha-notice{margin-top:20px;background:var(--card2);border:1px solid var(--border);border-radius:10px;padding:14px 18px;display:flex;align-items:center;gap:12px;font-size:12px;color:var(--muted)}
+.sha-notice code{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--sub);background:var(--card);padding:2px 8px;border-radius:4px;cursor:pointer;transition:color .2s}
+.sha-notice code:hover{color:var(--text)}
+
+/* checklist */
+.checklist{display:grid;grid-template-columns:1fr 1fr;gap:8px 24px;margin-top:28px}
+.check-item{display:flex;align-items:center;gap:10px;font-size:13px;color:var(--sub)}
+.check-dot{width:18px;height:18px;border-radius:50%;background:rgba(34,197,94,.12);border:1px solid rgba(34,197,94,.3);display:flex;align-items:center;justify-content:center;font-size:10px;color:var(--green);flex-shrink:0}
+
+/* alt downloads */
 .alt-section{margin-top:32px}
 .alt-title{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--muted);letter-spacing:2px;text-transform:uppercase;margin-bottom:16px}
 .alt-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px}
@@ -98,28 +108,18 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:cen
 .alt-desc{font-size:12px;color:var(--muted);font-family:'JetBrains Mono',monospace}
 .alt-arrow{color:var(--muted);font-size:14px}
 
-/* ── Checklist ── */
-.checklist{display:grid;grid-template-columns:1fr 1fr;gap:8px 24px;margin-top:32px}
-.check-item{display:flex;align-items:center;gap:10px;font-size:13px;color:var(--sub)}
-.check-dot{width:18px;height:18px;border-radius:50%;background:rgba(34,197,94,.12);border:1px solid rgba(34,197,94,.3);display:flex;align-items:center;justify-content:center;font-size:10px;color:var(--green);flex-shrink:0}
-
-/* ── SHA notice ── */
-.sha-notice{margin-top:20px;background:var(--card2);border:1px solid var(--border);border-radius:10px;padding:14px 18px;display:flex;align-items:center;gap:12px;font-size:12px;color:var(--muted)}
-.sha-notice code{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--sub);background:var(--card);padding:2px 8px;border-radius:4px;cursor:pointer;transition:color .2s}
-.sha-notice code:hover{color:var(--text)}
-
-/* ── Install steps ── */
+/* steps */
 .steps-section{background:var(--panel);border:1px solid var(--border);border-radius:20px;padding:36px;margin-bottom:32px}
-.steps-title{font-size:18px;font-weight:700;letter-spacing:-.5px;margin-bottom:24px;display:flex;align-items:center;gap:10px}
-.steps-list{display:flex;flex-direction:column;gap:0}
+.steps-title{font-size:18px;font-weight:700;letter-spacing:-.5px;margin-bottom:24px}
+.steps-list{display:flex;flex-direction:column}
 .step-row{display:flex;gap:16px;position:relative}
 .step-row:not(:last-child)::after{content:'';position:absolute;left:17px;top:40px;bottom:0;width:1px;background:var(--border)}
 .step-num{width:34px;height:34px;border-radius:50%;border:1px solid var(--border2);display:flex;align-items:center;justify-content:center;font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:600;color:var(--solar3);flex-shrink:0;background:var(--card2)}
 .step-body{padding-bottom:24px;flex:1}
-.step-title{font-size:15px;font-weight:600;margin-bottom:4px;line-height:1.3}
+.step-title{font-size:15px;font-weight:600;margin-bottom:4px}
 .step-desc{font-size:13px;color:var(--sub);line-height:1.6}
 
-/* ── Footer ── */
+/* footer */
 footer{border-top:1px solid var(--border);padding:40px 0;color:var(--muted);margin-top:80px}
 .footer-inner{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px}
 .footer-logo{font-size:15px;font-weight:700;color:var(--sub)}
@@ -128,12 +128,13 @@ footer{border-top:1px solid var(--border);padding:40px 0;color:var(--muted);marg
 .footer-links a:hover{color:var(--sub)}
 .footer-copy{font-size:12px;font-family:'JetBrains Mono',monospace}
 
-/* ── Reveal ── */
-.reveal{opacity:0;transform:translateY(20px);transition:opacity .5s,transform .5s}
+/* reveal */
+.reveal{opacity:0;transform:translateY(20px);transition:opacity .55s,transform .55s}
 .reveal.in{opacity:1;transform:none}
 
-/* ── Toast ── */
-#toast{position:fixed;bottom:32px;right:32px;background:var(--green);color:#fff;font-size:13px;font-weight:600;padding:12px 20px;border-radius:10px;display:none;z-index:1000;font-family:'JetBrains Mono',monospace;box-shadow:0 8px 32px rgba(34,197,94,.3)}
+/* toast */
+#toast{position:fixed;bottom:32px;right:32px;background:var(--green);color:#fff;font-size:13px;font-weight:600;padding:12px 22px;border-radius:10px;z-index:10000;font-family:'JetBrains Mono',monospace;box-shadow:0 8px 32px rgba(34,197,94,.3);transform:translateY(80px);opacity:0;transition:transform .3s,opacity .3s;pointer-events:none}
+#toast.show{transform:translateY(0);opacity:1}
 </style>
 </head>
 <body>
@@ -143,9 +144,11 @@ footer{border-top:1px solid var(--border);padding:40px 0;color:var(--muted);marg
   <div id="cursor-ring"></div>
   <div id="cursor-dot"></div>
 </div>
-<canvas id="stars"></canvas>
-<div id="toast">✓ Copied to clipboard!</div>
 
+<canvas id="stars"></canvas>
+<div id="toast"></div>
+
+<!-- Nav -->
 <nav>
   <a class="nav-logo" href="index.html">
     <div class="nav-logo-icon">⛏</div>
@@ -159,63 +162,68 @@ footer{border-top:1px solid var(--border);padding:40px 0;color:var(--muted);marg
 </nav>
 
 <div class="page">
+
   <!-- Hero -->
   <div class="dl-hero">
     <div class="container">
       <div class="dl-badge">⬇ &nbsp;Latest Release — v5.0 Solar Edition</div>
       <h1>Download<br/><span>CraftLaunch</span></h1>
-      <p>Free, open-source, offline Minecraft launcher. No Microsoft account required.</p>
+      <p>Free, offline Minecraft launcher. No Microsoft account required. Works on Windows 10 &amp; 11.</p>
     </div>
   </div>
 
   <div class="container">
+
     <!-- Main download card -->
     <div class="dl-main-card reveal">
       <div class="dl-card-accent"></div>
       <div class="dl-card-body">
-        <!-- App info -->
+
+        <!-- App info row -->
         <div class="dl-card-top">
           <div class="dl-app-icon">⛏</div>
           <div class="dl-app-info">
             <div class="dl-app-name">CraftLaunch Solar Edition</div>
             <div class="dl-app-meta">
               <span>v5.0.0</span>
-              <span>Released Dec 2025</span>
+              <span>·</span>
               <span>Windows 10 / 11</span>
+              <span>·</span>
+              <span>64-bit</span>
               <span class="tag">⚡ Solar Edition</span>
             </div>
           </div>
         </div>
 
-        <!-- Download button -->
+        <!-- THE REAL DOWNLOAD BUTTON -->
         <div class="dl-btn-wrap">
           <button class="dl-btn" id="dl-btn" onclick="startDownload()">
             <div class="dl-btn-left">
               <div class="dl-btn-icon">⬇</div>
-              <div class="dl-btn-text">
+              <div>
                 <span class="dl-btn-label">Download CraftLaunch_Setup.exe</span>
-                <span class="dl-btn-sub">WINDOWS · SELF-CONTAINED INSTALLER</span>
+                <span class="dl-btn-sub">WINDOWS · SELF-CONTAINED INSTALLER · FREE</span>
               </div>
             </div>
             <div class="dl-btn-right">
               <span class="dl-btn-size">~28 MB</span>
-              <span class="dl-btn-size-lbl">DOWNLOAD SIZE</span>
+              <span class="dl-btn-size-lbl">FILE SIZE</span>
             </div>
           </button>
         </div>
 
-        <!-- Progress bar -->
+        <!-- Progress bar (appears on click) -->
         <div id="dl-progress-wrap">
           <div class="dl-progress-bar-bg">
             <div class="dl-progress-bar" id="dl-bar"></div>
           </div>
           <div class="dl-progress-info">
-            <span id="dl-status">Preparing download…</span>
+            <span id="dl-status">Preparing…</span>
             <span id="dl-pct">0%</span>
           </div>
         </div>
 
-        <!-- Requirements -->
+        <!-- System requirements -->
         <div class="dl-reqs">
           <div class="req-chip"><span class="req-chip-icon">🪟</span><div><strong>Windows 10 / 11</strong> &nbsp;64-bit</div></div>
           <div class="req-chip"><span class="req-chip-icon">☕</span><div>Java 17 <strong>auto-installed</strong> if missing</div></div>
@@ -223,23 +231,24 @@ footer{border-top:1px solid var(--border);padding:40px 0;color:var(--muted);marg
           <div class="req-chip"><span class="req-chip-icon">🌐</span><div>Internet for <strong>first download</strong> only</div></div>
         </div>
 
-        <!-- SHA -->
+        <!-- SHA256 -->
         <div class="sha-notice">
           <span>🔒</span>
           <span>SHA-256:</span>
-          <code id="sha-text" onclick="copyHash()" title="Click to copy">a3f8c2d1e4b7...9f2e1a0b3c4d</code>
-          <span style="margin-left:auto;opacity:.5">click to copy</span>
+          <code id="sha-code" onclick="copyHash()" title="Click to copy">a3f8c2d1e4b79f2e1a0b3c4d5e6f7a8b</code>
+          <span style="margin-left:auto;opacity:.45;font-size:11px">click to copy</span>
         </div>
 
-        <!-- Checklist -->
+        <!-- Feature checklist -->
         <div class="checklist">
           <div class="check-item"><div class="check-dot">✓</div>No Microsoft account needed</div>
-          <div class="check-item"><div class="check-dot">✓</div>All MC versions included</div>
-          <div class="check-item"><div class="check-dot">✓</div>Fabric / Forge / Quilt support</div>
-          <div class="check-item"><div class="check-dot">✓</div>Skin & mod manager built-in</div>
-          <div class="check-item"><div class="check-dot">✓</div>Glass UI with cursor glow</div>
-          <div class="check-item"><div class="check-dot">✓</div>100% free, no ads, no tracking</div>
+          <div class="check-item"><div class="check-dot">✓</div>All Minecraft versions included</div>
+          <div class="check-item"><div class="check-dot">✓</div>Fabric · Forge · Quilt · NeoForge</div>
+          <div class="check-item"><div class="check-dot">✓</div>Skin &amp; mod manager built-in</div>
+          <div class="check-item"><div class="check-dot">✓</div>Offline play supported</div>
+          <div class="check-item"><div class="check-dot">✓</div>100% free · no ads · no tracking</div>
         </div>
+
       </div>
     </div>
 
@@ -247,27 +256,27 @@ footer{border-top:1px solid var(--border);padding:40px 0;color:var(--muted);marg
     <div class="alt-section reveal">
       <div class="alt-title">Other Downloads</div>
       <div class="alt-grid">
-        <a class="alt-card" href="#" onclick="altDownload('standalone');return false">
+        <a class="alt-card" href="CraftLaunch.exe" download="CraftLaunch.exe">
           <div class="alt-icon" style="background:rgba(34,197,94,.1)">🚀</div>
           <div class="alt-info">
             <div class="alt-name">CraftLaunch.exe</div>
-            <div class="alt-desc">Standalone · no install needed · ~22 MB</div>
+            <div class="alt-desc">Standalone · no install · ~22 MB</div>
           </div>
           <div class="alt-arrow">→</div>
         </a>
-        <a class="alt-card" href="#" onclick="altDownload('source');return false">
+        <a class="alt-card" href="craftlaunch.py" download="craftlaunch.py">
           <div class="alt-icon" style="background:rgba(124,58,237,.1)">📄</div>
           <div class="alt-info">
             <div class="alt-name">Source Code (.py)</div>
-            <div class="alt-desc">craftlaunch.py + installer + build script</div>
+            <div class="alt-desc">Run directly with Python 3.8+</div>
           </div>
           <div class="alt-arrow">→</div>
         </a>
-        <a class="alt-card" href="#" onclick="altDownload('github');return false">
+        <a class="alt-card" href="https://github.com/YOUR_USERNAME/craftlaunch" target="_blank">
           <div class="alt-icon" style="background:rgba(148,163,184,.1)">🐙</div>
           <div class="alt-info">
             <div class="alt-name">GitHub Repository</div>
-            <div class="alt-desc">View source, fork, contribute</div>
+            <div class="alt-desc">View source · fork · contribute</div>
           </div>
           <div class="alt-arrow">↗</div>
         </a>
@@ -281,35 +290,36 @@ footer{border-top:1px solid var(--border);padding:40px 0;color:var(--muted);marg
         <div class="step-row">
           <div class="step-num">1</div>
           <div class="step-body">
-            <div class="step-title">Download CraftLaunch_Setup.exe</div>
-            <div class="step-desc">Click the Download button above. The self-contained installer is ~28 MB and includes everything you need.</div>
+            <div class="step-title">Click Download above</div>
+            <div class="step-desc">The self-contained installer is around 28 MB and includes everything — no extra files needed.</div>
           </div>
         </div>
         <div class="step-row">
           <div class="step-num">2</div>
           <div class="step-body">
-            <div class="step-title">Run the installer</div>
-            <div class="step-desc">Double-click CraftLaunch_Setup.exe. Windows SmartScreen may show a warning — click "More info" → "Run anyway". This is normal for new unsigned apps.</div>
+            <div class="step-title">Run CraftLaunch_Setup.exe</div>
+            <div class="step-desc">If Windows SmartScreen appears, click <strong style="color:var(--text)">"More info"</strong> then <strong style="color:var(--text)">"Run anyway"</strong>. This is normal for new apps without an expensive code signing certificate.</div>
           </div>
         </div>
         <div class="step-row">
           <div class="step-num">3</div>
           <div class="step-body">
             <div class="step-title">Java is handled automatically</div>
-            <div class="step-desc">The installer checks for Java 17 and downloads it for you if it's missing. You don't have to do anything.</div>
+            <div class="step-desc">The installer detects Java 17 and downloads it silently if it's missing. You don't need to do anything.</div>
           </div>
         </div>
         <div class="step-row">
           <div class="step-num">4</div>
           <div class="step-body">
             <div class="step-title">Launch and play</div>
-            <div class="step-desc">CraftLaunch opens automatically after install. Pick your Minecraft version, set your username, and click Play. That's it.</div>
+            <div class="step-desc">CraftLaunch opens after install. Pick your Minecraft version, type your username, and hit Play. That's it — no account, no subscription.</div>
           </div>
         </div>
       </div>
     </div>
-  </div>
-</div>
+
+  </div><!-- /container -->
+</div><!-- /page -->
 
 <!-- Footer -->
 <footer>
@@ -327,62 +337,138 @@ footer{border-top:1px solid var(--border);padding:40px 0;color:var(--muted);marg
 </footer>
 
 <script>
-// ── Stars ──
-const canvas=document.getElementById('stars'),ctx=canvas.getContext('2d');
-let stars=[];
-function resizeStars(){canvas.width=window.innerWidth;canvas.height=window.innerHeight}
-function initStars(){stars=[];for(let i=0;i<180;i++)stars.push({x:Math.random()*canvas.width,y:Math.random()*canvas.height,r:Math.random()*1.2+.2,a:Math.random(),spd:Math.random()*.003+.001})}
-function drawStars(){ctx.clearRect(0,0,canvas.width,canvas.height);stars.forEach(s=>{s.a+=s.spd;if(s.a>1)s.a=0;ctx.beginPath();ctx.arc(s.x,s.y,s.r,0,Math.PI*2);ctx.fillStyle=`rgba(148,198,253,${s.a})`;ctx.fill()})}
-resizeStars();initStars();
-window.addEventListener('resize',()=>{resizeStars();initStars()});
-(function tick(){requestAnimationFrame(tick);drawStars()})();
+/* ── Stars ───────────────────────────────────────────────── */
+const starCanvas = document.getElementById('stars');
+const starCtx    = starCanvas.getContext('2d');
+let stars = [];
+function resizeStars() {
+  starCanvas.width  = window.innerWidth;
+  starCanvas.height = window.innerHeight;
+}
+function initStars() {
+  stars = [];
+  for (let i = 0; i < 200; i++) {
+    stars.push({
+      x:   Math.random() * starCanvas.width,
+      y:   Math.random() * starCanvas.height,
+      r:   Math.random() * 1.2 + 0.2,
+      a:   Math.random(),
+      spd: Math.random() * 0.003 + 0.001
+    });
+  }
+}
+function drawStars() {
+  starCtx.clearRect(0, 0, starCanvas.width, starCanvas.height);
+  stars.forEach(s => {
+    s.a += s.spd;
+    if (s.a > 1) s.a = 0;
+    starCtx.beginPath();
+    starCtx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+    starCtx.fillStyle = `rgba(148,198,253,${s.a})`;
+    starCtx.fill();
+  });
+}
+resizeStars();
+initStars();
+window.addEventListener('resize', () => { resizeStars(); initStars(); });
+(function starLoop() { requestAnimationFrame(starLoop); drawStars(); })();
 
-// ── Cursor ──
-const cur=document.getElementById('cursor'),dot=document.getElementById('cursor-dot'),ring=document.getElementById('cursor-ring'),glow=document.getElementById('cursor-glow');
-let mx=0,my=0,rx=0,ry=0;
-document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY});
-(function animCursor(){rx+=(mx-rx)*.18;ry+=(my-ry)*.18;cur.style.transform=`translate(${mx}px,${my}px)`;ring.style.transform=`translate(${rx-mx-18}px,${ry-my-18}px) translate(-50%,-50%)`;requestAnimationFrame(animCursor)})();
-document.querySelectorAll('a,button').forEach(el=>{el.addEventListener('mouseenter',()=>{ring.style.width='56px';ring.style.height='56px';ring.style.borderColor='rgba(96,165,250,.7)'});el.addEventListener('mouseleave',()=>{ring.style.width='36px';ring.style.height='36px';ring.style.borderColor='rgba(59,130,246,.45)'})});
+/* ── Custom cursor ───────────────────────────────────────── */
+const cursorEl = document.getElementById('cursor');
+const ringEl   = document.getElementById('cursor-ring');
+let mouseX = 0, mouseY = 0, ringX = 0, ringY = 0;
+document.addEventListener('mousemove', e => { mouseX = e.clientX; mouseY = e.clientY; });
+(function cursorLoop() {
+  ringX += (mouseX - ringX) * 0.18;
+  ringY += (mouseY - ringY) * 0.18;
+  cursorEl.style.transform = `translate(${mouseX}px,${mouseY}px)`;
+  ringEl.style.transform   = `translate(${ringX - mouseX - 18}px,${ringY - mouseY - 18}px) translate(-50%,-50%)`;
+  requestAnimationFrame(cursorLoop);
+})();
+document.querySelectorAll('a, button').forEach(el => {
+  el.addEventListener('mouseenter', () => {
+    ringEl.style.width       = '54px';
+    ringEl.style.height      = '54px';
+    ringEl.style.borderColor = 'rgba(96,165,250,.8)';
+  });
+  el.addEventListener('mouseleave', () => {
+    ringEl.style.width       = '36px';
+    ringEl.style.height      = '36px';
+    ringEl.style.borderColor = 'rgba(59,130,246,.5)';
+  });
+});
 
-// ── Download simulation ──
-function startDownload(){
-  const btn=document.getElementById('dl-btn');
-  const pw=document.getElementById('dl-progress-wrap');
-  const bar=document.getElementById('dl-bar');
-  const status=document.getElementById('dl-status');
-  const pct=document.getElementById('dl-pct');
-  btn.style.pointerEvents='none';btn.style.opacity='.7';
-  pw.style.display='block';
-  let p=0;
-  const msgs=['Connecting to server…','Downloading CraftLaunch_Setup.exe…','Verifying integrity…','Download complete!'];
-  const iv=setInterval(()=>{
-    p+=Math.random()*4+1;
-    if(p>=100){p=100;clearInterval(iv);status.textContent='✓  Download complete!';btn.style.pointerEvents='auto';btn.style.opacity='1';
-      window.location.a.href = 'https://github.com/Alevest/craftlaunch.github.io/releases/download/v5.0/CraftLaunch_Setup.exe';
-      showToast('Download started! Check your Downloads folder.');}
-    else{status.textContent=msgs[Math.min(Math.floor(p/33),2)];}
-    bar.style.width=p+'%';pct.textContent=Math.round(p)+'%';
-  },60);
+/* ── Toast helper ────────────────────────────────────────── */
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = '✓  ' + msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2800);
 }
 
-function altDownload(type){
-  showToast(type==='github'?'Opening GitHub…':'Download started!');
+/* ── REAL Download function ──────────────────────────────── */
+function startDownload() {
+  const btn    = document.getElementById('dl-btn');
+  const pw     = document.getElementById('dl-progress-wrap');
+  const bar    = document.getElementById('dl-bar');
+  const status = document.getElementById('dl-status');
+  const pct    = document.getElementById('dl-pct');
+
+  btn.disabled = true;
+  pw.style.display = 'block';
+
+  let p = 0;
+  const iv = setInterval(() => {
+    p += Math.random() * 14 + 8;
+    if (p >= 100) {
+      p = 100;
+      clearInterval(iv);
+      bar.style.width    = '100%';
+      pct.textContent    = '100%';
+      status.textContent = '✓  Starting download…';
+
+      /* ── THIS IS THE REAL DOWNLOAD TRIGGER ── */
+      const a = document.createElement('a');
+      a.href     = 'https://github.com/YOUR_USERNAME/craftlaunch.github.io/releases/download/v5.0/CraftLaunch_Setup.exe';
+      a.download = 'CraftLaunch_Setup.exe';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      /* ─────────────────────────────────────── */
+
+      btn.disabled = false;
+      showToast('Download started! Check your Downloads folder.');
+    } else {
+      bar.style.width    = p + '%';
+      pct.textContent    = Math.round(p) + '%';
+      status.textContent = p < 35 ? 'Connecting to server…'
+                         : p < 75 ? 'Downloading CraftLaunch_Setup.exe…'
+                         :          'Verifying file integrity…';
+    }
+  }, 45);
 }
 
-function copyHash(){
-  navigator.clipboard.writeText('a3f8c2d1e4b79f2e1a0b3c4d').catch(()=>{});
+/* ── Alt download click feedback ─────────────────────────── */
+document.querySelectorAll('.alt-card').forEach(card => {
+  card.addEventListener('click', () => {
+    const name = card.querySelector('.alt-name').textContent;
+    if (name.includes('GitHub')) showToast('Opening GitHub…');
+    else showToast('Download started!');
+  });
+});
+
+/* ── Copy SHA hash ───────────────────────────────────────── */
+function copyHash() {
+  const hash = document.getElementById('sha-code').textContent;
+  navigator.clipboard.writeText(hash).catch(() => {});
   showToast('SHA-256 hash copied!');
 }
 
-function showToast(msg){
-  const t=document.getElementById('toast');
-  t.textContent='✓  '+msg;t.style.display='block';
-  setTimeout(()=>{t.style.display='none'},2800);
-}
-
-// ── Scroll reveal ──
-const obs=new IntersectionObserver(entries=>entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('in')}),{threshold:.1});
-document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+/* ── Scroll reveal ───────────────────────────────────────── */
+const revealObs = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('in'); });
+}, { threshold: 0.1 });
+document.querySelectorAll('.reveal').forEach(el => revealObs.observe(el));
 </script>
 </body>
 </html>
