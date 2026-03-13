@@ -1,0 +1,723 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>CraftLaunch — Solar Edition</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --void:#03040A;--bg:#080A14;--panel:#0B0D18;--card:#0E1020;--card2:#111424;
+  --lift:#1A1E38;--border:#1A2040;--border2:#1E2D60;
+  --solar:#3B82F6;--solar2:#1D4ED8;--solar3:#60A5FA;--glow:#93C5FD;
+  --cyan:#06B6D4;--green:#22C55E;--amber:#F59E0B;--rose:#F43F5E;--violet:#7C3AED;
+  --text:#F1F5F9;--sub:#94A3B8;--muted:#475569;
+}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;font-size:16px;line-height:1.6;overflow-x:hidden;cursor:none}
+
+/* ══ CURSOR — 3 independent fixed elements, zero offset ══ */
+#c-dot{
+  position:fixed;pointer-events:none;z-index:9999;
+  width:8px;height:8px;border-radius:50%;background:#b0c8f8;
+  top:0;left:0;transform:translate(-50%,-50%);
+}
+#c-ring{
+  position:fixed;pointer-events:none;z-index:9998;
+  width:38px;height:38px;border-radius:50%;
+  border:1.5px solid rgba(59,130,246,.55);
+  top:0;left:0;transform:translate(-50%,-50%);
+  transition:width .18s,height .18s,border-color .18s;
+}
+#c-glow{
+  position:fixed;pointer-events:none;z-index:9997;
+  width:160px;height:160px;border-radius:50%;
+  background:radial-gradient(circle,rgba(29,78,216,.12) 0%,transparent 68%);
+  top:0;left:0;transform:translate(-50%,-50%);
+}
+
+/* ══ Stars ══ */
+#stars{position:fixed;inset:0;z-index:0;pointer-events:none}
+
+/* ══ Nav ══ */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:200;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 48px;height:66px;
+  background:rgba(3,4,10,.88);backdrop-filter:blur(20px);
+  border-bottom:1px solid rgba(30,45,96,.7);
+}
+.nav-logo{display:flex;align-items:center;gap:12px;text-decoration:none}
+.nav-logo-mark{
+  width:34px;height:34px;border-radius:9px;
+  background:linear-gradient(135deg,var(--solar),var(--solar2));
+  display:flex;align-items:center;justify-content:center;font-size:17px;
+  box-shadow:0 4px 16px rgba(59,130,246,.4);
+}
+.nav-logo-text{font-size:16px;font-weight:700;color:var(--text);letter-spacing:-.4px}
+.nav-logo-edition{font-size:11px;font-family:'JetBrains Mono',monospace;color:var(--solar3);margin-left:2px;opacity:.8}
+.nav-links{display:flex;align-items:center;gap:4px}
+.nav-links a{
+  color:var(--sub);text-decoration:none;font-size:13px;font-weight:500;
+  padding:7px 14px;border-radius:8px;transition:all .18s;
+}
+.nav-links a:hover{color:var(--text);background:rgba(255,255,255,.04)}
+.nav-dl{
+  background:var(--solar);color:#fff !important;
+  padding:8px 20px !important;border-radius:8px !important;
+  font-weight:600 !important;margin-left:8px;
+  box-shadow:0 4px 16px rgba(59,130,246,.3);
+  transition:all .18s !important;
+}
+.nav-dl:hover{background:var(--solar2) !important;transform:translateY(-1px) !important;box-shadow:0 8px 24px rgba(59,130,246,.4) !important}
+
+/* ══ Hero ══ */
+.hero{
+  position:relative;min-height:100vh;
+  display:flex;align-items:center;justify-content:center;
+  text-align:center;padding:120px 24px 100px;z-index:1;overflow:hidden;
+}
+.hero-bg{
+  position:absolute;inset:0;
+  background:radial-gradient(ellipse 80% 60% at 50% -10%,rgba(59,130,246,.12) 0%,transparent 65%);
+  pointer-events:none;
+}
+.hero-grid-lines{
+  position:absolute;inset:0;pointer-events:none;opacity:.04;
+  background-image:linear-gradient(var(--solar3) 1px,transparent 1px),linear-gradient(90deg,var(--solar3) 1px,transparent 1px);
+  background-size:60px 60px;
+  mask-image:radial-gradient(ellipse 70% 70% at 50% 50%,black 0%,transparent 80%);
+}
+.hero-inner{position:relative;z-index:1;max-width:860px;margin:0 auto}
+.hero-eyebrow{
+  display:inline-flex;align-items:center;gap:8px;
+  background:rgba(59,130,246,.07);border:1px solid rgba(59,130,246,.22);
+  border-radius:999px;padding:6px 16px 6px 10px;
+  font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--solar3);
+  margin-bottom:36px;letter-spacing:.4px;
+}
+.hero-eyebrow-dot{
+  width:7px;height:7px;border-radius:50%;background:var(--solar3);
+  animation:pdot 2.4s ease-in-out infinite;
+}
+@keyframes pdot{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.3;transform:scale(.7)}}
+.hero h1{
+  font-size:clamp(52px,8vw,96px);font-weight:900;
+  line-height:.95;letter-spacing:-4px;margin-bottom:28px;
+}
+.h1-line1{
+  display:block;
+  background:linear-gradient(160deg,#ffffff 0%,var(--glow) 50%,var(--solar3) 100%);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
+.h1-line2{
+  display:block;
+  background:linear-gradient(135deg,var(--solar3) 0%,var(--cyan) 100%);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
+.hero-desc{
+  font-size:clamp(15px,2vw,19px);color:var(--sub);
+  max-width:560px;margin:0 auto 20px;line-height:1.75;font-weight:400;
+}
+.hero-tags{
+  display:flex;align-items:center;justify-content:center;gap:8px;
+  flex-wrap:wrap;margin-bottom:48px;
+}
+.hero-tag{
+  font-family:'JetBrains Mono',monospace;font-size:11px;
+  padding:4px 12px;border-radius:999px;letter-spacing:.3px;
+}
+.ht-blue{background:rgba(59,130,246,.1);color:var(--solar3);border:1px solid rgba(59,130,246,.2)}
+.ht-green{background:rgba(34,197,94,.08);color:var(--green);border:1px solid rgba(34,197,94,.18)}
+.ht-cyan{background:rgba(6,182,212,.08);color:var(--cyan);border:1px solid rgba(6,182,212,.18)}
+.ht-violet{background:rgba(124,58,237,.1);color:#a78bfa;border:1px solid rgba(124,58,237,.2)}
+.hero-btns{
+  display:flex;align-items:center;justify-content:center;
+  gap:14px;flex-wrap:wrap;margin-bottom:80px;
+}
+.btn-primary{
+  display:inline-flex;align-items:center;gap:10px;
+  background:linear-gradient(135deg,var(--solar),var(--solar2));
+  color:#fff;font-size:15px;font-weight:700;padding:15px 34px;
+  border-radius:12px;text-decoration:none;transition:all .22s;border:none;
+  cursor:pointer;font-family:'Inter',sans-serif;
+  box-shadow:0 8px 32px rgba(59,130,246,.35),inset 0 1px 0 rgba(255,255,255,.12);
+}
+.btn-primary:hover{transform:translateY(-3px);box-shadow:0 16px 48px rgba(59,130,246,.5)}
+.btn-secondary{
+  display:inline-flex;align-items:center;gap:10px;
+  background:rgba(255,255,255,.04);color:var(--sub);
+  font-size:15px;font-weight:500;padding:15px 28px;
+  border-radius:12px;text-decoration:none;
+  border:1px solid rgba(30,45,96,.9);transition:all .22s;
+  cursor:pointer;font-family:'Inter',sans-serif;
+}
+.btn-secondary:hover{color:var(--text);border-color:rgba(96,165,250,.4);background:rgba(59,130,246,.06)}
+
+/* ══ App window mockup ══ */
+.mockup-wrap{
+  max-width:920px;margin:0 auto;
+  border-radius:18px;overflow:hidden;
+  border:1px solid rgba(30,45,96,.9);
+  box-shadow:0 48px 120px rgba(0,0,0,.7),0 0 0 1px rgba(59,130,246,.06);
+}
+.mockup-tb{
+  height:42px;background:var(--void);
+  display:flex;align-items:center;padding:0 18px;gap:8px;
+  border-bottom:1px solid var(--border);
+}
+.m-dot{width:11px;height:11px;border-radius:50%}
+.mockup-tb-title{
+  flex:1;text-align:center;
+  font-size:11px;font-family:'JetBrains Mono',monospace;color:var(--muted);
+}
+.mockup-body{
+  display:flex;height:320px;
+  background:var(--bg);
+}
+.mockup-sb{
+  width:190px;flex-shrink:0;background:var(--void);
+  border-right:1px solid var(--border);
+  display:flex;flex-direction:column;padding:14px 0;
+}
+.m-sb-brand{padding:10px 16px 16px;display:flex;align-items:center;gap:8px;border-bottom:1px solid var(--border);margin-bottom:8px}
+.m-sb-icon{width:26px;height:26px;background:linear-gradient(135deg,var(--solar),var(--solar2));border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:12px}
+.m-sb-name{font-size:12px;font-weight:700;color:var(--text);letter-spacing:-.3px}
+.m-nav{padding:4px 8px;margin:0 4px;border-radius:8px;font-size:11px;font-family:'JetBrains Mono',monospace;display:flex;align-items:center;gap:8px;cursor:default}
+.m-nav.on{background:rgba(59,130,246,.14);color:var(--solar3)}
+.m-nav.off{color:var(--muted)}
+.m-nav-indicator{width:3px;height:20px;border-radius:2px;margin-left:auto}
+.mockup-main{flex:1;padding:24px;display:flex;flex-direction:column;gap:14px;overflow:hidden}
+.m-greeting{font-size:20px;font-weight:800;color:#fff;letter-spacing:-.8px;line-height:1}
+.m-sub{font-size:10px;color:var(--sub);font-family:'JetBrains Mono',monospace}
+.m-stats{display:flex;gap:8px}
+.m-stat{flex:1;background:var(--card);border:1px solid var(--border);border-radius:8px;padding:10px 12px}
+.m-stat-n{font-size:16px;font-weight:700;line-height:1;margin-bottom:3px}
+.m-stat-l{font-size:8px;font-family:'JetBrains Mono',monospace;color:var(--muted)}
+.m-launch{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:14px;display:flex;align-items:center;justify-content:space-between}
+.m-launch-info{display:flex;flex-direction:column;gap:2px}
+.m-launch-ver{font-size:12px;font-weight:700;color:var(--text)}
+.m-launch-ldr{font-size:9px;font-family:'JetBrains Mono',monospace;color:var(--muted)}
+.m-play{background:var(--solar);border-radius:7px;padding:9px 20px;font-size:11px;font-weight:700;color:#fff;border:none;cursor:default;display:flex;align-items:center;gap:6px;box-shadow:0 4px 16px rgba(59,130,246,.4)}
+.m-progress{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:10px 14px}
+.m-prog-label{font-size:9px;font-family:'JetBrains Mono',monospace;color:var(--muted);margin-bottom:6px;display:flex;justify-content:space-between}
+.m-prog-bar{height:4px;background:var(--card2);border-radius:99px;overflow:hidden}
+.m-prog-fill{height:100%;border-radius:99px;background:linear-gradient(90deg,var(--solar),var(--cyan));animation:prog 3s ease-in-out infinite alternate}
+@keyframes prog{from{width:15%}to{width:85%}}
+
+/* ══ Social proof strip ══ */
+.proof-strip{
+  border-top:1px solid var(--border);border-bottom:1px solid var(--border);
+  padding:28px 0;background:var(--panel);position:relative;z-index:1;
+}
+.proof-inner{
+  display:flex;align-items:center;justify-content:center;
+  gap:48px;flex-wrap:wrap;
+}
+.proof-item{
+  display:flex;align-items:center;gap:10px;
+  font-size:14px;color:var(--sub);
+}
+.proof-item strong{color:var(--text);font-weight:700;font-size:18px}
+.proof-divider{width:1px;height:28px;background:var(--border)}
+
+/* ══ Section shared ══ */
+section{position:relative;z-index:1}
+.container{max-width:1200px;margin:0 auto;padding:0 28px}
+.sec-eyebrow{
+  font-family:'JetBrains Mono',monospace;font-size:10px;
+  color:var(--solar3);letter-spacing:3px;text-transform:uppercase;
+  margin-bottom:14px;display:flex;align-items:center;gap:10px;
+}
+.sec-eyebrow::before{content:'';width:24px;height:1px;background:var(--solar3)}
+.sec-title{font-size:clamp(28px,4vw,48px);font-weight:900;letter-spacing:-2px;line-height:1.05;margin-bottom:14px}
+.sec-sub{font-size:16px;color:var(--sub);max-width:520px;line-height:1.75}
+
+/* ══ Features ══ */
+.features{padding:120px 0}
+.features-top{margin-bottom:64px}
+.feat-grid{
+  display:grid;grid-template-columns:repeat(3,1fr);
+  gap:1px;background:var(--border);
+  border:1px solid var(--border);border-radius:18px;overflow:hidden;
+}
+.feat-card{
+  background:var(--panel);padding:38px 32px;
+  transition:background .2s;position:relative;overflow:hidden;
+}
+.feat-card::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:2px;
+  opacity:0;transition:opacity .2s;
+}
+.feat-card:hover{background:var(--card)}
+.feat-card:hover::before{opacity:1}
+.fc-blue::before{background:linear-gradient(90deg,var(--solar2),var(--solar))}
+.fc-green::before{background:linear-gradient(90deg,#16a34a,var(--green))}
+.fc-violet::before{background:linear-gradient(90deg,#6d28d9,var(--violet))}
+.fc-cyan::before{background:linear-gradient(90deg,var(--cyan),#67e8f9)}
+.fc-amber::before{background:linear-gradient(90deg,#d97706,var(--amber))}
+.fc-rose::before{background:linear-gradient(90deg,#be123c,var(--rose))}
+.feat-ico{
+  width:52px;height:52px;border-radius:14px;
+  display:flex;align-items:center;justify-content:center;font-size:24px;
+  margin-bottom:22px;
+}
+.feat-title{font-size:17px;font-weight:700;letter-spacing:-.4px;margin-bottom:8px;color:var(--text)}
+.feat-desc{font-size:13px;color:var(--sub);line-height:1.75}
+.feat-tag{
+  display:inline-block;margin-top:14px;
+  font-family:'JetBrains Mono',monospace;font-size:10px;
+  padding:3px 10px;border-radius:999px;letter-spacing:.3px;
+}
+
+/* ══ Stats ══ */
+.stats{padding:80px 0}
+.stats-grid{
+  display:grid;grid-template-columns:repeat(4,1fr);gap:2px;
+  background:var(--border);border:1px solid var(--border);
+  border-radius:18px;overflow:hidden;
+}
+.stat-card{
+  background:var(--panel);padding:40px 32px;text-align:center;
+  transition:background .2s;
+}
+.stat-card:hover{background:var(--card)}
+.stat-num{
+  font-size:clamp(38px,4vw,58px);font-weight:900;
+  letter-spacing:-3px;line-height:1;
+  background:linear-gradient(135deg,#fff,var(--solar3));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+  margin-bottom:6px;
+}
+.stat-lbl{font-size:12px;color:var(--muted);font-family:'JetBrains Mono',monospace;letter-spacing:1px}
+.stat-sub{font-size:12px;color:var(--muted);margin-top:4px}
+
+/* ══ Versions ══ */
+.versions{padding:100px 0}
+.ver-grid{
+  display:grid;grid-template-columns:repeat(auto-fill,minmax(108px,1fr));
+  gap:10px;margin-top:48px;
+}
+.ver-chip{
+  background:var(--card);border:1px solid var(--border);border-radius:10px;
+  padding:12px 8px;text-align:center;
+  font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--sub);
+  transition:all .18s;cursor:default;
+}
+.ver-chip:hover{border-color:rgba(96,165,250,.35);color:var(--solar3);background:rgba(59,130,246,.05)}
+.ver-chip.latest{border-color:rgba(34,197,94,.4);color:var(--green);background:rgba(34,197,94,.06)}
+.ver-chip.snapshot{border-color:rgba(245,158,11,.3);color:var(--amber);background:rgba(245,158,11,.05)}
+
+/* ══ Mod loaders ══ */
+.loaders{padding:0 0 100px}
+.loaders-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:48px}
+.loader-card{
+  background:var(--panel);border:1px solid var(--border);border-radius:16px;
+  padding:28px 24px;text-align:center;transition:all .2s;
+}
+.loader-card:hover{border-color:var(--border2);background:var(--card);transform:translateY(-2px);box-shadow:0 8px 32px rgba(0,0,0,.3)}
+.loader-ico{font-size:28px;margin-bottom:12px}
+.loader-name{font-size:15px;font-weight:700;margin-bottom:6px;letter-spacing:-.3px}
+.loader-desc{font-size:12px;color:var(--muted);line-height:1.5}
+.loader-badge{
+  display:inline-block;margin-top:10px;
+  font-family:'JetBrains Mono',monospace;font-size:9px;
+  padding:2px 8px;border-radius:999px;
+}
+
+/* ══ CTA ══ */
+.cta-section{padding:100px 0 120px}
+.cta-card{
+  background:var(--panel);border:1px solid rgba(30,45,96,.9);
+  border-radius:28px;padding:88px 48px;
+  text-align:center;position:relative;overflow:hidden;
+  box-shadow:0 32px 80px rgba(0,0,0,.4);
+}
+.cta-glow{
+  position:absolute;top:-80px;left:50%;transform:translateX(-50%);
+  width:700px;height:400px;
+  background:radial-gradient(ellipse,rgba(59,130,246,.14) 0%,transparent 65%);
+  pointer-events:none;
+}
+.cta-grid-lines{
+  position:absolute;inset:0;pointer-events:none;opacity:.03;
+  background-image:linear-gradient(var(--solar3) 1px,transparent 1px),linear-gradient(90deg,var(--solar3) 1px,transparent 1px);
+  background-size:48px 48px;
+  mask-image:radial-gradient(ellipse 60% 80% at 50% 50%,black 0%,transparent 80%);
+}
+.cta-label{
+  font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--solar3);
+  letter-spacing:3px;text-transform:uppercase;margin-bottom:20px;
+}
+.cta-card h2{
+  font-size:clamp(32px,5vw,60px);font-weight:900;letter-spacing:-2.5px;
+  margin-bottom:16px;line-height:1;
+}
+.cta-card p{font-size:17px;color:var(--sub);max-width:440px;margin:0 auto 40px;line-height:1.7}
+.cta-btns{display:flex;align-items:center;justify-content:center;gap:14px;flex-wrap:wrap}
+.cta-note{margin-top:20px;font-size:12px;color:var(--muted);font-family:'JetBrains Mono',monospace}
+
+/* ══ Footer ══ */
+footer{border-top:1px solid var(--border);padding:44px 0}
+.footer-inner{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:20px}
+.footer-brand{display:flex;align-items:center;gap:10px}
+.footer-brand-mark{width:28px;height:28px;background:linear-gradient(135deg,var(--solar),var(--solar2));border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:13px}
+.footer-brand-text{font-size:14px;font-weight:700;color:var(--sub)}
+.footer-links{display:flex;gap:6px}
+.footer-links a{color:var(--muted);text-decoration:none;font-size:13px;padding:6px 12px;border-radius:6px;transition:all .18s}
+.footer-links a:hover{color:var(--sub);background:rgba(255,255,255,.03)}
+.footer-copy{font-size:11px;font-family:'JetBrains Mono',monospace;color:var(--muted)}
+
+/* ══ Reveal ══ */
+.reveal{opacity:0;transform:translateY(24px);transition:opacity .6s,transform .6s}
+.reveal.in{opacity:1;transform:none}
+.rd1{transition-delay:.08s}.rd2{transition-delay:.16s}.rd3{transition-delay:.24s}
+</style>
+</head>
+<body>
+
+<!-- Cursor — 3 independent fixed elements -->
+<div id="c-glow"></div>
+<div id="c-ring"></div>
+<div id="c-dot"></div>
+
+<canvas id="stars"></canvas>
+
+<!-- Nav -->
+<nav>
+  <a class="nav-logo" href="index.html">
+    <div class="nav-logo-mark">⛏</div>
+    <span class="nav-logo-text">CraftLaunch <span class="nav-logo-edition">SOLAR</span></span>
+  </a>
+  <div class="nav-links">
+    <a href="#features">Features</a>
+    <a href="#versions">Versions</a>
+    <a href="#loaders">Mod Loaders</a>
+    <a href="download.html" class="nav-dl">⬇ Download Free</a>
+  </div>
+</nav>
+
+<!-- Hero -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-grid-lines"></div>
+  <div class="hero-inner">
+    <div class="hero-eyebrow">
+      <div class="hero-eyebrow-dot"></div>
+      ⚡ Solar Edition v5.0 — Now Available
+    </div>
+    <h1>
+      <span class="h1-line1">The Minecraft</span>
+      <span class="h1-line2">Launcher You<br/>Deserve</span>
+    </h1>
+    <p class="hero-desc">Every version. Every mod loader. Beautiful interface. Completely free, offline-capable, forever. No Microsoft account required.</p>
+    <div class="hero-tags">
+      <span class="hero-tag ht-blue">Windows 10 / 11</span>
+      <span class="hero-tag ht-green">✓ Free Forever</span>
+      <span class="hero-tag ht-cyan">Offline Mode</span>
+      <span class="hero-tag ht-violet">100+ MC Versions</span>
+    </div>
+    <div class="hero-btns">
+      <a class="btn-primary" href="download.html">⬇ &nbsp;Download Free — 67 MB</a>
+      <a class="btn-secondary" href="#features">✦ &nbsp;See Features</a>
+    </div>
+
+    <!-- App window mockup -->
+    <div class="mockup-wrap reveal">
+      <div class="mockup-tb">
+        <div class="m-dot" style="background:#EF4444"></div>
+        <div class="m-dot" style="background:#F59E0B"></div>
+        <div class="m-dot" style="background:#22C55E"></div>
+        <span class="mockup-tb-title">CraftLaunch Solar Edition  ·  v5.0</span>
+      </div>
+      <div class="mockup-body">
+        <!-- Sidebar -->
+        <div class="mockup-sb">
+          <div class="m-sb-brand">
+            <div class="m-sb-icon">⛏</div>
+            <span class="m-sb-name">CraftLaunch</span>
+          </div>
+          <div class="m-nav on">🏠 &nbsp;Home <div class="m-nav-indicator" style="background:var(--solar)"></div></div>
+          <div class="m-nav off">⬇ &nbsp;Install</div>
+          <div class="m-nav off">◉ &nbsp;Profiles</div>
+          <div class="m-nav off">🧩 &nbsp;Mods</div>
+          <div class="m-nav off">👤 &nbsp;Skin</div>
+          <div class="m-nav off">▣ &nbsp;Console</div>
+          <div class="m-nav off">⚙ &nbsp;Settings</div>
+        </div>
+        <!-- Main content -->
+        <div class="mockup-main">
+          <div>
+            <div class="m-greeting">CraftLaunch</div>
+            <div class="m-sub">Solar Edition · Offline Ready</div>
+          </div>
+          <div class="m-stats">
+            <div class="m-stat">
+              <div class="m-stat-n" style="color:#7C3AED">3</div>
+              <div class="m-stat-l">◈ PROFILES</div>
+            </div>
+            <div class="m-stat">
+              <div class="m-stat-n" style="color:#22C55E">12</div>
+              <div class="m-stat-l">▣ INSTALLED</div>
+            </div>
+            <div class="m-stat">
+              <div class="m-stat-n" style="color:#F59E0B">47</div>
+              <div class="m-stat-l">❖ MODS</div>
+            </div>
+            <div class="m-stat">
+              <div class="m-stat-n" style="color:#3B82F6">17</div>
+              <div class="m-stat-l">☕ JAVA</div>
+            </div>
+          </div>
+          <div class="m-launch">
+            <div class="m-launch-info">
+              <div class="m-launch-ver">Minecraft 1.21.4</div>
+              <div class="m-launch-ldr">Fabric 0.16 · 47 mods</div>
+            </div>
+            <div class="m-play">▶ &nbsp;PLAY</div>
+          </div>
+          <div class="m-progress">
+            <div class="m-prog-label"><span>Downloading assets…</span><span style="color:var(--solar3)">68%</span></div>
+            <div class="m-prog-bar"><div class="m-prog-fill"></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Social proof strip -->
+<div class="proof-strip">
+  <div class="container">
+    <div class="proof-inner">
+      <div class="proof-item"><strong>100+</strong> Minecraft versions</div>
+      <div class="proof-divider"></div>
+      <div class="proof-item"><strong>5</strong> mod loaders</div>
+      <div class="proof-divider"></div>
+      <div class="proof-item"><strong>0</strong> ads or tracking</div>
+      <div class="proof-divider"></div>
+      <div class="proof-item"><strong>Free</strong> forever</div>
+      <div class="proof-divider"></div>
+      <div class="proof-item"><strong>No</strong> Microsoft account</div>
+    </div>
+  </div>
+</div>
+
+<!-- Features -->
+<section class="features" id="features">
+  <div class="container">
+    <div class="features-top reveal">
+      <div class="sec-eyebrow">Features</div>
+      <h2 class="sec-title">Everything in one place.</h2>
+      <p class="sec-sub">No subscriptions. No tracking. No Microsoft account. Just the game you love.</p>
+    </div>
+    <div class="feat-grid reveal">
+      <div class="feat-card fc-blue">
+        <div class="feat-ico" style="background:rgba(59,130,246,.12)">⬇</div>
+        <div class="feat-title">Every Version, Instantly</div>
+        <p class="feat-desc">Download any Minecraft release, snapshot, beta or alpha directly. Full version list from Mojang's official manifest, always up to date.</p>
+        <span class="feat-tag" style="background:rgba(59,130,246,.1);color:var(--solar3);border:1px solid rgba(59,130,246,.2)">100+ VERSIONS</span>
+      </div>
+      <div class="feat-card fc-green">
+        <div class="feat-ico" style="background:rgba(34,197,94,.1)">🧩</div>
+        <div class="feat-title">All Mod Loaders</div>
+        <p class="feat-desc">Vanilla, Fabric, Forge, Quilt, and NeoForge — all supported with one-click install, version picker, and auto-dependency resolution.</p>
+        <span class="feat-tag" style="background:rgba(34,197,94,.08);color:var(--green);border:1px solid rgba(34,197,94,.2)">5 LOADERS</span>
+      </div>
+      <div class="feat-card fc-violet">
+        <div class="feat-ico" style="background:rgba(124,58,237,.1)">◉</div>
+        <div class="feat-title">Profile Manager</div>
+        <p class="feat-desc">Create unlimited profiles each with their own version, mod loader, mod set, skin, and memory. Switch instantly.</p>
+        <span class="feat-tag" style="background:rgba(124,58,237,.1);color:#a78bfa;border:1px solid rgba(124,58,237,.2)">UNLIMITED PROFILES</span>
+      </div>
+      <div class="feat-card fc-cyan">
+        <div class="feat-ico" style="background:rgba(6,182,212,.1)">👤</div>
+        <div class="feat-title">Skin Changer</div>
+        <p class="feat-desc">Import custom skins, preview them live in the built-in 3D viewer, and manage a personal skin library with one click apply.</p>
+        <span class="feat-tag" style="background:rgba(6,182,212,.08);color:var(--cyan);border:1px solid rgba(6,182,212,.2)">3D PREVIEW</span>
+      </div>
+      <div class="feat-card fc-amber">
+        <div class="feat-ico" style="background:rgba(245,158,11,.1)">☕</div>
+        <div class="feat-title">Java Manager</div>
+        <p class="feat-desc">Auto-detects your Java installation. If Java 17 is missing, one click downloads and installs it silently. Never worry about Java again.</p>
+        <span class="feat-tag" style="background:rgba(245,158,11,.08);color:var(--amber);border:1px solid rgba(245,158,11,.2)">AUTO-DETECT</span>
+      </div>
+      <div class="feat-card fc-rose">
+        <div class="feat-ico" style="background:rgba(244,63,94,.1)">🖥</div>
+        <div class="feat-title">Full Offline Mode</div>
+        <p class="feat-desc">No Microsoft account required. Play with any username on LAN or offline. Once a version is downloaded, no internet needed.</p>
+        <span class="feat-tag" style="background:rgba(244,63,94,.08);color:var(--rose);border:1px solid rgba(244,63,94,.2)">NO ACCOUNT</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Stats -->
+<section class="stats">
+  <div class="container">
+    <div class="stats-grid reveal">
+      <div class="stat-card">
+        <div class="stat-num">100+</div>
+        <div class="stat-lbl">MC VERSIONS</div>
+        <div class="stat-sub">Releases to Alpha</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num">5</div>
+        <div class="stat-lbl">MOD LOADERS</div>
+        <div class="stat-sub">Fabric · Forge · More</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num">0</div>
+        <div class="stat-lbl">ADS / TRACKING</div>
+        <div class="stat-sub">100% clean</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num">Free</div>
+        <div class="stat-lbl">FOREVER</div>
+        <div class="stat-sub">Open source</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Versions -->
+<section class="versions" id="versions">
+  <div class="container">
+    <div class="reveal">
+      <div class="sec-eyebrow">Compatibility</div>
+      <h2 class="sec-title">Supports them all.</h2>
+      <p class="sec-sub">From 1.21.4 all the way back to the very first Alpha release. CraftLaunch has every version.</p>
+    </div>
+    <div class="ver-grid reveal">
+      <div class="ver-chip latest">1.21.4 ✓</div>
+      <div class="ver-chip latest">1.21.3 ✓</div>
+      <div class="ver-chip snapshot">1.21.5-pre</div>
+      <div class="ver-chip">1.21.1</div>
+      <div class="ver-chip">1.20.6</div>
+      <div class="ver-chip">1.20.4</div>
+      <div class="ver-chip">1.20.1</div>
+      <div class="ver-chip">1.19.4</div>
+      <div class="ver-chip">1.18.2</div>
+      <div class="ver-chip">1.17.1</div>
+      <div class="ver-chip">1.16.5</div>
+      <div class="ver-chip">1.12.2</div>
+      <div class="ver-chip">1.8.9</div>
+      <div class="ver-chip">1.7.10</div>
+      <div class="ver-chip">Beta 1.7</div>
+      <div class="ver-chip">Alpha 1.2</div>
+      <div class="ver-chip">+ snapshots</div>
+      <div class="ver-chip">+ all more</div>
+    </div>
+  </div>
+</section>
+
+<!-- Mod Loaders -->
+<section class="loaders" id="loaders">
+  <div class="container">
+    <div class="reveal">
+      <div class="sec-eyebrow">Mod Loaders</div>
+      <h2 class="sec-title">Every loader. One launcher.</h2>
+      <p class="sec-sub">Install any mod loader in one click. CraftLaunch handles dependencies, versions, and updates automatically.</p>
+    </div>
+    <div class="loaders-grid reveal">
+      <div class="loader-card">
+        <div class="loader-ico">🟫</div>
+        <div class="loader-name">Vanilla</div>
+        <div class="loader-desc">Pure Minecraft, no mods. The cleanest experience.</div>
+        <span class="loader-badge" style="background:rgba(148,163,184,.1);color:var(--sub);border:1px solid var(--border)">BUILT-IN</span>
+      </div>
+      <div class="loader-card">
+        <div class="loader-ico">🧵</div>
+        <div class="loader-name">Fabric</div>
+        <div class="loader-desc">Lightweight, fast, modern. The most popular modding platform.</div>
+        <span class="loader-badge" style="background:rgba(34,197,94,.08);color:var(--green);border:1px solid rgba(34,197,94,.2)">RECOMMENDED</span>
+      </div>
+      <div class="loader-card">
+        <div class="loader-ico">⚙️</div>
+        <div class="loader-name">Forge</div>
+        <div class="loader-desc">The original. Thousands of mods and the biggest community.</div>
+        <span class="loader-badge" style="background:rgba(245,158,11,.08);color:var(--amber);border:1px solid rgba(245,158,11,.2)">CLASSIC</span>
+      </div>
+      <div class="loader-card">
+        <div class="loader-ico">🪢</div>
+        <div class="loader-name">Quilt</div>
+        <div class="loader-desc">Fork of Fabric with extra features. Compatible with most Fabric mods.</div>
+        <span class="loader-badge" style="background:rgba(124,58,237,.08);color:#a78bfa;border:1px solid rgba(124,58,237,.2)">MODERN</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section">
+  <div class="container">
+    <div class="cta-card reveal">
+      <div class="cta-glow"></div>
+      <div class="cta-grid-lines"></div>
+      <div class="cta-label">Get Started — It's Free</div>
+      <h2>Ready to play?</h2>
+      <p>Download CraftLaunch Solar Edition. Windows 10/11. No account. No cost. No limits.</p>
+      <div class="cta-btns">
+        <a class="btn-primary" href="download.html">⬇ &nbsp;Download CraftLaunch Free</a>
+        <a class="btn-secondary" href="#features">✦ &nbsp;Learn More</a>
+      </div>
+      <div class="cta-note">67 MB · Self-contained installer · Java auto-installed if needed</div>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer>
+  <div class="container">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <div class="footer-brand-mark">⛏</div>
+        <span class="footer-brand-text">CraftLaunch Solar Edition</span>
+      </div>
+      <div class="footer-links">
+        <a href="index.html">Home</a>
+        <a href="#features">Features</a>
+        <a href="#versions">Versions</a>
+        <a href="download.html">Download</a>
+      </div>
+      <div class="footer-copy">© 2025 CraftLaunch · Free &amp; Open Source</div>
+    </div>
+  </div>
+</footer>
+
+<script>
+/* ── Stars ── */
+const sc=document.getElementById('stars'),sx=sc.getContext('2d');let ss=[];
+function rsz(){sc.width=innerWidth;sc.height=innerHeight}
+function iss(){ss=[];for(let i=0;i<240;i++)ss.push({x:Math.random()*sc.width,y:Math.random()*sc.height,r:Math.random()*1.3+.2,a:Math.random(),s:Math.random()*.004+.001})}
+function dss(){sx.clearRect(0,0,sc.width,sc.height);ss.forEach(s=>{s.a+=s.s;if(s.a>1)s.a=0;sx.beginPath();sx.arc(s.x,s.y,s.r,0,Math.PI*2);sx.fillStyle=`rgba(148,198,253,${s.a})`;sx.fill()})}
+rsz();iss();window.addEventListener('resize',()=>{rsz();iss()});
+(function sl(){requestAnimationFrame(sl);dss()})();
+
+/* ── Cursor — fixed, no nested offset ── */
+const dot  = document.getElementById('c-dot');
+const ring = document.getElementById('c-ring');
+const glow = document.getElementById('c-glow');
+let mx=0,my=0, rx=0,ry=0, gx=0,gy=0;
+document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY});
+(function cl(){
+  dot.style.left  = mx+'px';  dot.style.top  = my+'px';
+  rx+=(mx-rx)*.14; ry+=(my-ry)*.14;
+  ring.style.left = rx+'px';  ring.style.top = ry+'px';
+  gx+=(mx-gx)*.07; gy+=(my-gy)*.07;
+  glow.style.left = gx+'px';  glow.style.top = gy+'px';
+  requestAnimationFrame(cl);
+})();
+document.querySelectorAll('a,button').forEach(el=>{
+  el.addEventListener('mouseenter',()=>{ring.style.width='54px';ring.style.height='54px';ring.style.borderColor='rgba(96,165,250,.85)'});
+  el.addEventListener('mouseleave',()=>{ring.style.width='38px';ring.style.height='38px';ring.style.borderColor='rgba(59,130,246,.55)'});
+});
+
+/* ── Scroll reveal ── */
+const ro=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('in')}),{threshold:.1});
+document.querySelectorAll('.reveal').forEach(el=>ro.observe(el));
+</script>
+</body>
+</html>
